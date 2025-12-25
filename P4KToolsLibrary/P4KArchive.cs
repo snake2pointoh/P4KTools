@@ -2,7 +2,6 @@
 
 public class P4KArchive : IDisposable
 {
-    //TODO: implement this
     
     private readonly Stream _stream;
     private readonly BinaryReader _reader;
@@ -13,9 +12,11 @@ public class P4KArchive : IDisposable
     /// <summary>
     /// Initializes a new instance of P4KArchive for reading
     /// </summary>
-    /// <param name="stream">The stream containing the archive to read</param>
     /// <exception cref="ArgumentNullException">The stream is null</exception>
-    /// <exception cref="InvalidDataException">The contents of the stream could not be interpreted as a valid p4k archive</exception>
+    /// <exception cref="InvalidDataException">
+    /// The contents of the stream could not be interpreted as a valid p4k archive
+    /// </exception>
+    /// <param name="stream">The stream containing the archive to read</param>
     public P4KArchive(Stream stream)
     {
         ArgumentNullException.ThrowIfNull(stream);
