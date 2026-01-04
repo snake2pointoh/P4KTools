@@ -3,6 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P4KToolsLibrary", "P4KToolsLibrary\P4KToolsLibrary.csproj", "{85FE1A36-0190-4834-94FF-1662EA676AF6}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestingConsoleApp", "TestingConsoleApp\TestingConsoleApp.csproj", "{7546220E-FCE9-4929-8887-EE2CB3E22FBE}"
+	ProjectSection(ProjectDependencies) = postProject
+		{85FE1A36-0190-4834-94FF-1662EA676AF6} = {85FE1A36-0190-4834-94FF-1662EA676AF6}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -7,4 +7,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\P4KToolsLibrary\P4KToolsLibrary.csproj" />
+    </ItemGroup>
+
 </Project>

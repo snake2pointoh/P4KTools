@@ -1,8 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "VbWkui8L25U=",
+  "dgSpecHash": "cO4DoXASYGU=",
   "success": true,
   "projectFilePath": "E:\\Dev\\c#\\P4KTools\\TestingConsoleApp\\TestingConsoleApp.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\nick\\.nuget\\packages\\zstdsharp.port\\0.8.6\\zstdsharp.port.0.8.6.nupkg.sha512"
+  ],
   "logs": []
 }
