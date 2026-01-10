@@ -12,7 +12,7 @@ public struct EndOfCentralDirectory64
     public ulong CentralDirectoryRecordsOnDisk;
     public ulong TotalCentralDirectoryRecords;
     public ulong CentralDirectorySizeBytes;
-    public ulong CentralDirectoryOffset;
+    public ulong CentralDirectoryOffset; // offset form the start of the archive (file) that the central directory starts at
     public byte[] Comment; // remaining bytes in SizeMinus12 after reading all previous fields
 }
 

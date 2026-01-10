@@ -2,8 +2,10 @@
 
 namespace P4KToolsLibrary.DataStructures.Zip32;
 
+
 public struct CentralDirectory32
 {
+    
     public uint MagicNumber;
     public ushort VersionCreated;
     public ushort VersionRequired;
@@ -22,7 +24,7 @@ public struct CentralDirectory32
     public uint ExternalAttributes;
     public uint LocalHeaderOffset;
     public string FileName;
-    public byte[] ExtraField;
+    public byte[]? ExtraField;
     public byte[] FileComment;
 }
 
@@ -52,7 +54,7 @@ public static class CentralDirectory32Reader
         cd32.FileCommentLength = reader.ReadUInt16();
         cd32.StartDiskNumber = reader.ReadUInt16();
         cd32.InternalAttributes = reader.ReadUInt16();
-        cd32.ExternalAttributes = reader.ReadUInt16();
+        cd32.ExternalAttributes = reader.ReadUInt32();
         cd32.LocalHeaderOffset = reader.ReadUInt32();
 
         byte[] fileNameBytes = reader.ReadBytes(cd32.FileNameLength);

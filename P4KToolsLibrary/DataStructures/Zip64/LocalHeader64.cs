@@ -15,14 +15,22 @@ public static class LocalHeader64Reader
         LocalHeader64 lh64 = new LocalHeader64();
 
         lh64.LocalHeader32 = LocalHeader32Reader.Read(reader);
+
+        if (lh64.LocalHeader32.ExtraField == null)
+        {
+            throw new InvalidDataException("Extra field is missing");
+        }
         
         MemoryStream memStream = new MemoryStream(lh64.LocalHeader32.ExtraField);
         BinaryReader binaryReader = new BinaryReader(memStream);
         
         lh64.ExtendedData64 = ExtendedData64Reader.Read(binaryReader);
         
-        binaryReader.Close();
-        memStream.Close();
+        // set to null for GC cleanup
+        lh64.LocalHeader32.ExtraField = null;
+        
+        binaryReader.Dispose();
+        memStream.Dispose();
         
         return lh64;
     }

@@ -15,14 +15,22 @@ public static class CentralDirectory64Reader
     {
         CentralDirectory64 cd64 = new CentralDirectory64();
         cd64.CentralDirectory32 = CentralDirectory32Reader.Read(reader);
+
+        if (cd64.CentralDirectory32.ExtraField == null)
+        {
+            throw new InvalidDataException("Extra field is missing");
+        }
         
         MemoryStream memStream = new MemoryStream(cd64.CentralDirectory32.ExtraField);
         BinaryReader binaryReader = new BinaryReader(memStream);
         
         cd64.ExtendedData64 = ExtendedData64Reader.Read(binaryReader);
         
-        binaryReader.Close();
-        memStream.Close();
+        // set to null for GC cleanup
+        cd64.CentralDirectory32.ExtraField = null;
+        
+        binaryReader.Dispose();
+        memStream.Dispose();
         
         return cd64;
     }

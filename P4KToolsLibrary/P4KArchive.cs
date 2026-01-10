@@ -10,12 +10,18 @@ public class P4KArchive : IDisposable
     private readonly Stream _stream;
     private readonly BinaryReader _reader;
     private readonly List<P4KEntry> _entries;
+    private readonly Dictionary<string, P4KEntry> _entryDictionary;
 
     private EndOfCentralDirectory64 _EOCD64;
     private EndOfCentralDirectory32 _EOCD32;
     private EndOfCentralDirectoryLocator _EOCDLocator;
     
     private bool _isDisposed;
+
+    public List<P4KEntry> Entries
+    {
+        get { return _entries; }
+    }
     
     /// <summary>
     /// Initializes a new instance of P4KArchive for reading
@@ -35,6 +41,7 @@ public class P4KArchive : IDisposable
         }
         
         _entries = new List<P4KEntry>();
+        _entryDictionary = new Dictionary<string, P4KEntry>();
         _stream = stream;
         _reader = new BinaryReader(stream);
         
@@ -42,6 +49,30 @@ public class P4KArchive : IDisposable
         _initializeEntries();
     }
 
+    public void Dispose()
+    {
+        Dispose(true);
+        GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="uri"></param>
+    /// <returns>The Entry if found or Null</returns>
+    public P4KEntry? TryGetEntry(string fileName)
+    {
+        P4KEntry? entry = null;
+        
+        _entryDictionary.TryGetValue(fileName, out entry);
+        return entry;
+    }
+    
+    internal Stream ArchiveStream
+    {
+        get { return _stream; }
+    }
+    
     private void _initializeArchive()
     {
         _reader.BaseStream.Seek(-MaxOffsets.EocdLocatorMaxOffset, SeekOrigin.End);
@@ -76,13 +107,14 @@ public class P4KArchive : IDisposable
     private void _initializeEntries()
     {
         _entries.Clear();
-        //TODO - read central directory and create P4KEntries
-    }
-
-    public void Dispose()
-    {
-        Dispose(true);
-        GC.SuppressFinalize(this);
+        _reader.BaseStream.Seek((long)_EOCD64.CentralDirectoryOffset, SeekOrigin.Begin);
+        
+        for (ulong i = 0; i < _EOCD64.TotalCentralDirectoryRecords; i++)
+        {
+            P4KEntry newEntry = new P4KEntry(this, _reader);
+            _entries.Add(newEntry);
+            _entryDictionary.Add(newEntry.FilePath, newEntry);
+        }
     }
 
     private void Dispose(bool disposing)
